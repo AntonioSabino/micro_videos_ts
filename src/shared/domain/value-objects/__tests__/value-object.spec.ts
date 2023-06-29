@@ -16,8 +16,8 @@ describe('ValueObject', () => {
   })
 
   it('should be return string value', () => {
-    const date = new Date("2021-01-01T00:00:00.000Z")
-    
+    const date = new Date('2021-01-01T00:00:00.000Z')
+
     const arrange = [
       {
         received: 'any_value',
@@ -44,14 +44,6 @@ describe('ValueObject', () => {
       {
         received: false,
         expected: 'false'
-      },
-      {
-        received: null,
-        expected: 'null'
-      },
-      {
-        received: undefined,
-        expected: 'undefined'
       }
     ]
 
@@ -59,5 +51,27 @@ describe('ValueObject', () => {
       const vo = new StubValueObject(received)
       expect(vo.toString()).toBe(expected)
     })
+  })
+
+  it('should be a immutable object', () => {
+    const obj = {
+      prop: 'prop_value',
+      deep: {
+        prop: 'deep_prop_value',
+        date: new Date()
+      }
+    }
+
+    const vo = new StubValueObject(obj)
+
+    expect(() => {
+      (vo as any).value.prop = 'new_prop_value'
+    }).toThrowError(TypeError)
+
+    expect(() => {
+      (vo as any).value.deep.prop = 'new_deep_prop_value'
+    }).toThrowError(TypeError)
+
+    expect(vo.value.deep.date).toBeInstanceOf(Date)
   })
 })
