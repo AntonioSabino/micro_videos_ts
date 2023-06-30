@@ -1,5 +1,6 @@
 import UniqueEntityId from '../../../shared/domain/value-objects/unique-entity-id.vo'
 import { Category } from './category'
+import { validate as uuidValidate } from 'uuid'
 
 describe('Category', () => {
   it('should create category', () => {
@@ -52,12 +53,13 @@ describe('Category', () => {
       { props: { name: 'Category 1' } },
       { props: { name: 'Category 2' }, id: null },
       { props: { name: 'Category 3' }, id: undefined },
-      { props: { name: 'Category 4' }, id: new UniqueEntityId() },
+      { props: { name: 'Category 4' }, id: new UniqueEntityId() }
     ]
 
     data.forEach((item) => {
       const category = new Category(item.props, item.id)
-      expect(category.id).toBeInstanceOf(UniqueEntityId)
+      expect(category.id).toBeDefined()
+      expect(uuidValidate(category.id)).toBeTruthy()
     })
   })
 
