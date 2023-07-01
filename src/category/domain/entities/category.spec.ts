@@ -117,4 +117,47 @@ describe('Category', () => {
 
     expect(category2.created_at).toBeInstanceOf(Date)
   })
+
+  it('should be update category', () => {
+    const category = new Category({
+      name: 'Category 1',
+      description: 'Description Category 1'
+    })
+
+    category.update('Category 2', 'Description Category 2')
+
+    expect(category.props).toStrictEqual({
+      name: 'Category 2',
+      description: 'Description Category 2',
+      is_active: true,
+      created_at: expect.any(Date)
+    })
+  })
+
+  it('should be activate category', () => {
+    const category = new Category({
+      name: 'Category 1',
+      description: 'Description Category 1',
+      is_active: false
+    })
+
+    expect(category.is_active).toBeFalsy()
+
+    category.activate()
+
+    expect(category.is_active).toBeTruthy()
+  })
+
+  it('should be deactivate category', () => {
+    const category = new Category({
+      name: 'Category 1',
+      description: 'Description Category 1'
+    })
+
+    expect(category.is_active).toBeTruthy()
+
+    category.deactivate()
+
+    expect(category.is_active).toBeFalsy()
+  })
 })
