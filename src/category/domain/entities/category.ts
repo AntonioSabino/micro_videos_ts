@@ -1,6 +1,5 @@
-import Entity from "../../../shared/domain/entity/entity"
-import UniqueEntityId from "../../../shared/domain/value-objects/unique-entity-id.vo"
-
+import Entity from '../../../shared/domain/entity/entity'
+import UniqueEntityId from '../../../shared/domain/value-objects/unique-entity-id.vo'
 
 export type CategoryProps = {
   name: string
@@ -12,9 +11,9 @@ export type CategoryProps = {
 export class Category extends Entity<CategoryProps> {
   constructor(public readonly props: CategoryProps, id?: UniqueEntityId) {
     super(props, id)
-    this.description = this.props.description;
-    this.is_active = this.props.is_active;
-    this.props.created_at = this.props.created_at ?? new Date();
+    this.description = this.props.description
+    this.is_active = this.props.is_active
+    this.props.created_at = this.props.created_at ?? new Date()
   }
 
   get name(): string {
@@ -39,5 +38,18 @@ export class Category extends Entity<CategoryProps> {
 
   get created_at(): Date | undefined {
     return this.props.created_at
+  }
+
+  update(name: string, description: string): void {
+    this.props.name = name
+    this.props.description = description
+  }
+
+  activate(): void {
+    this.props.is_active = true
+  }
+
+  deactivate(): void {
+    this.props.is_active = false
   }
 }
